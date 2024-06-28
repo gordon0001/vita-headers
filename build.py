@@ -19,7 +19,7 @@ def vita_libs_gen(yml, out):
         raise SystemExit(10)
 
 def vita_libs_gen_2(yml, out):
-    cmd = os.environ.get('VITA_LIBS_GEN_2', 'vita-libs-gen-2')
+    cmd = os.environ.get('VITA_LIBS_GEN_2')
     if execute('{} -yml={} -output={} -cmake=false'.format(cmd, yml, out)):
         raise SystemExit(10)
         
