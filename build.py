@@ -12,11 +12,17 @@ def execute(cmd, force_print=False):
                 print(line)
         return r.close()
 
+# usage: usage: vita-libs-gen-2 -yml=<nids_db.yml|nids_db_yml_dir> -output=<output_dir> [-cmake=<true|false>] [-ignore-stubname=<true|false>]
 def vita_libs_gen(yml, out):
     cmd = os.environ.get('VITA_LIBS_GEN', 'vita-libs-gen')
     if execute('{} {} {}'.format(cmd, yml, out)):
         raise SystemExit(10)
 
+def vita_libs_gen_2(yml, out):
+    cmd = os.environ.get('VITA_LIBS_GEN_2', 'vita-libs-gen-2')
+    if execute('{} -yml={} -output={} -cmake=false'.format(cmd, yml, out)):
+        raise SystemExit(10)
+        
 def make(target):
     curr = os.getcwd()
     os.chdir(target)
@@ -66,7 +72,7 @@ if __name__ == '__main__':
             if os.path.exists(build_target):
                 shutil.rmtree(build_target)
             os.makedirs(build_target)
-            vita_libs_gen(yml, build_target)
+            vita_libs_gen_2(yml, build_target)
             make(build_target)
             if not os.environ.get('BYPASS_INSTALL'):
                 make_install(build_target)
